@@ -44,6 +44,11 @@ export default function _usuarios(state = {}, action) {
                 departamentos_usuario: action.data.departamentos_usuario,
                 dp_asignados: action.data.dp_asignados
             };
+        case UsuarioConstants.GET_USRS_ACTIVOS:
+            return {
+                ...state,
+                usuarios_activos: action.usuarios_activos
+            };
         default:
             return state
     }

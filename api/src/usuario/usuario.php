@@ -114,6 +114,25 @@ if (isset($_GET['get'])) {
     $res['usuarios'] = $arr;
 }
 
+if (isset($_GET['get_activos'])) {
+    $strQuery = "   SELECT id_usuario, nombre, email, usuario
+                    FROM dbtickets.usuario
+                    WHERE estado = 1
+                    ORDER BY nombre";
+    $qTmp = $con->db_consulta($strQuery);
+    $arr = array();
+    while ($rTmp = $con->db_fetch_object($qTmp)) {
+        $arr[] = array(
+            'id_usuario' => $rTmp->id_usuario,
+            '_nombre' => $rTmp->nombre,
+            'nombre' => $rTmp->nombre . ' @ ' . $rTmp->usuario,
+            'email' => $rTmp->email,
+            'usuario' => $rTmp->usuario
+        );
+    }
+    $res['usuarios_activos'] = $arr;
+}
+
 if (isset($_GET['get_roles_activos'])) {
     $strQuery = "   SELECT id_rol, nombre
                     FROM dbtickets.rol
@@ -301,16 +320,18 @@ if (isset($_GET['get_ficha_usuario'])) {
                     ORDER BY nombre ASC";
     $qTmp = $con->db_consulta($strQuery);
     $arr = array();
-    while($rTmp = $con->db_fetch_object($qTmp)) {
+    while ($rTmp = $con->db_fetch_object($qTmp)) {
         $arr[] = array(
             'id' => $rTmp->id_departamento,
-            'nombre' => $rTmp->nombre
+            'nombre' => $rTmp->nombre,
         );
     }
 
     $strQuery = "   SELECT id_departamento
                     FROM dbtickets.usuario_departamento
-                    WHERE id_usuario = {$intIdUsuairo}";
+                    WHERE id_usuario = {$intIdUsuairo}
+                    AND estado = 1";
+    $qTmp = $con->db_consulta($strQuery);
     $arrPermisos = array();
     while ($rTmp = $con->db_fetch_object($qTmp)) {
         $arrPermisos[] = $rTmp->id_departamento;
@@ -367,10 +388,10 @@ if (isset($_GET['masivo'])) {
                 if (!empty($strNombre) && !empty($strUser)) {
                     $strQuery = "   INSERT INTO dbtickets.usuario ( id_rol ,  usuario , password , email , nombre )
                                     VALUES ( 1 , '{$strUser}' , '{$md5Pass}' , {$email} , '{$strNombre}' )";
-                                    print($strQuery);
+                    print($strQuery);
 
                     mysqli_query($con, $strQuery);
-                } 
+                }
             }
 
             $res['err'] = 'false';

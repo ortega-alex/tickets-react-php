@@ -6,6 +6,7 @@ const UsuarioConstants = {
     GET_ROL_AC_SUCCESS: 'GET_ROL_AC_SUCCESS',
     GET_PRF_AC_SUCCESS: 'GET_PRF_AC_SUCCESS',
     GET_FICHA_USER_SUCCESS: 'GET_FICHA_USER_SUCCESS',
+    GET_USRS_ACTIVOS: 'GET_USRS_ACTIVOS'
 };
 
 const TicketConstants = {
@@ -18,7 +19,17 @@ const TicketConstants = {
     GET_PTGS_ACT_SUCCESS: 'GET_PTGS_ACT_SUCCESS'
 };
 
+const DepartamentoConstants = {
+    DPRT_REQUEST: 'DPRT_REQUEST',
+    DPRT_FAILURE: 'DPRT_FAILURE',
+    DPRT_SUCCESS: 'DPRT_SUCCESS',
+    GET_DPRTS: 'GET_DPRTS',
+    GET_ASGN_DPRT: 'GET_ASGN_DPRT',
+    GET_DPRTS_ACTIVOS: 'GET_DPRTS_ACTIVOS'
+};
+
 export {
     UsuarioConstants,
-    TicketConstants
+    TicketConstants,
+    DepartamentoConstants
 }

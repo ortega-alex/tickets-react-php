@@ -7,9 +7,9 @@ var moment = require('moment');
 require("moment/min/locales.min");
 moment.locale('es');
 
-function request() { 
+function request() {
     Funciones.validarTiempoSession();
-    return { type: UsuarioConstants.REQUEST } 
+    return { type: UsuarioConstants.REQUEST }
 }
 function failure(err) { return { type: UsuarioConstants.FAILURE, err } }
 function success(tipo, msj, usuario = {}) { return { type: UsuarioConstants.SUCCESS, tipo, msj, usuario } }
@@ -17,6 +17,7 @@ function getUsuariosSuccess(usuarios) { return { type: UsuarioConstants.GET_USUA
 function getRolesACTSuccess(roles_activos) { return { type: UsuarioConstants.GET_ROL_AC_SUCCESS, roles_activos } }
 function getPerfilesACTSuccess(perfiles_activos) { return { type: UsuarioConstants.GET_PRF_AC_SUCCESS, perfiles_activos } }
 function successGetFicha(data) { return { type: UsuarioConstants.GET_FICHA_USER_SUCCESS, data } }
+function getActivosSuccess(usuarios_activos) { return { type: UsuarioConstants.GET_USRS_ACTIVOS, usuarios_activos } }
 
 function login(data) {
     return dispatch => {
@@ -71,6 +72,16 @@ function get() {
     }
 }
 
+function getActivos() {
+    return dispatch => {
+        dispatch(request());
+        http._GET("usuario/usuario.php?get_activos=true").then(res => {
+            dispatch(getActivosSuccess(res.usuarios_activos));
+        }).catch(err => {
+            dispatch(failure(err.toString()));
+        })
+    }
+}
 
 function getRolesActivos() {
     return dispatch => {
@@ -172,6 +183,7 @@ export default {
     changePass,
     logout,
     get,
+    getActivos,
     getRolesActivos,
     getPerfilesActivos,
     save,

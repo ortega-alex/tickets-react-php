@@ -150,7 +150,7 @@ code {
     font-size: 2.2rem;
 }
 
-.categoria {
+.categoria, .departamentos {
     height: 80vh;
     overflow-y: auto;
     padding: 1%;
@@ -188,4 +188,18 @@ code {
     height: 300px;
     padding: 10px;
     border-radius: 5px;
+}
+
+.departamento {
+    text-align: center;
+    margin-top: 10px;
+    justify-content: center;
+    align-items: 'center';
+    background-color: #eeeeee;
+    border-radius: 5px;
+    box-shadow: 0px 1px 4px #909497;
+    border: none;
+    border-color: black;
+    outline: none;
+    padding: 1%;
 }

@@ -9,6 +9,7 @@ import Indicador from './indicador/indicador.components';
 import Usuario from './usuario/usuario.component';
 import Categoria from './tickets/categoria.component';
 import Pregunta from './tickets/preguntas.component';
+import Departamento from './departamento/departamento.component';
 
 class Menu extends Component {
 
@@ -95,6 +96,12 @@ class Menu extends Component {
                                 <span>Categorias de tickets</span>
                             </Link>
                         </MenuAntd.Item>
+                        <MenuAntd.Item key="/departamentos">
+                            <Link to="/departamentos" onClick={() => { this.setState({ pathname: "/departamentos" }) }} style={{ color: color }}>
+                                <Icon type="customer-service" />
+                                <span>Departamentos</span>
+                            </Link>
+                        </MenuAntd.Item>
                     </MenuAntd.SubMenu>
                 </MenuAntd>
 
@@ -144,6 +151,7 @@ class Menu extends Component {
                     <Route path="/usuarios" exact component={Usuario} />
                     <Route path="/preguntas" component={Pregunta} />
                     <Route path="/categorias" component={Categoria} />
+                    <Route path="/departamentos" component={Departamento} />
                 </div>
             </HashRouter>
         );

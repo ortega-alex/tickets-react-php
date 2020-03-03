@@ -55,7 +55,9 @@ class Ficha extends Component {
                                                     defaultExpandedKeys={value[i] ? value[i] : asignados[tab.asignados]}
                                                     defaultSelectedKeys={value[i] ? value[i] : asignados[tab.asignados]}
                                                     defaultCheckedKeys={value[i] ? value[i] : asignados[tab.asignados]}
-                                                    onCheck={this.onCheck}
+                                                    onCheck={(checkedKeys, info) => {
+                                                        this.onCheck(checkedKeys, info, i);
+                                                    }}
                                                 >
                                                     <TreeNode title={tab.titulo}>
                                                         {data[tab.data].map((_item) => {
@@ -91,7 +93,7 @@ class Ficha extends Component {
                                         }
                                     </div>
                                 </div>
-                                <div className="text-center footer">
+                                <div className="text-center">
                                     {tab.info &&
                                         <p className="m-0 p-0">
                                             {tab.info.title} &nbsp;
