@@ -23,6 +23,8 @@ $intPrioridad = isset($_POST['prioridad']) ? intval($_POST['prioridad']) : 0;
 $intAutorizacion = isset($_POST['autorizacion']) ? intval($_POST['autorizacion']) : 0;
 $intAutomatico = isset($_POST['automatico']) ? intval($_POST['automatico']) : 0;
 
+$intIdPregunta = isset($_POST['id_pregunta']) ? intval($_POST['id_pregunta']) : 0;
+
 if (isset($_GET['get_categorias'])) {
     $strQuery = "   SELECT id_categoria, nombre, estado
                     FROM dbtickets.categoria";
@@ -65,6 +67,23 @@ if (isset($_GET['get_tickets_categorias'])) {
 }
 
 if (isset($_GET['get_preguntas'])) {
+    $strQuery = "   SELECT id_pregunta, nombre, estado,
+                            IF(estado = 1, 'Activo', 'Inactivo') AS _estado
+                    FROM dbtickets.pregunta";
+    $qTmp = $con->db_consulta($strQuery);
+    $arr = array();
+    while ($rTmp = $con->db_fetch_object($qTmp)) {
+        $arr[] = array(
+            'id_pregunta' => $rTmp->id_pregunta,
+            'nombre' => $rTmp->nombre,
+            'estado' => $rTmp->estado,
+            '_estado' => $rTmp->_estado,
+        );
+    }
+    $res['preguntas'] = $arr;
+}
+
+if (isset($_GET['get_preguntas_activas'])) {
     $strQuery = "   SELECT id_pregunta, nombre
                     FROM dbtickets.pregunta
                     WHERE estado = 1";
@@ -79,7 +98,7 @@ if (isset($_GET['get_preguntas'])) {
             'valor' => 0,
         );
     }
-    $res['preguntas'] = $arr;
+    $res['preguntas_activas'] = $arr;
 }
 
 if (isset($_GET['add_categoria'])) {
@@ -155,7 +174,7 @@ if (isset($_GET['get_preguntas_categoria'])) {
             );
         }
     }
-    $res['preguntas'] = $arr;
+    $res['preguntas_activas'] = $arr;
     $res['total'] = $total;
     $res['ids_preguntas'] = $ids_preguntas;
 }
@@ -209,6 +228,39 @@ if (isset($_GET['add_ticket'])) {
         $res['msj'] = "Ticket guardado exitosamente!";
     } else {
         $res['mdj'] = "Ha ocurrido un error!";
+    }
+}
+
+if (isset($_GET['add_pregunta'])) {
+    if ($intIdPregunta > 0) {
+        $strQuery = "   UPDATE dbtickets.pregunta
+                        SET nombre = '{$strNombre}',
+                            estado = {$intEstado},
+                            fecha_edit = CURRENT_TIMESTAMP()
+                        WHERE id_pregunta = {$intIdPregunta}";
+    } else {
+        $strQuery = "   INSERT INTO dbtickets.pregunta (nombre, estado)
+                        VALUES ('{$strNombre}', {$intEstado})";
+    }
+ 
+    if ($con->db_consulta($strQuery)) {
+        $res['err'] = 'false';
+        $res['msj'] = 'Pregunta guardada exitosamente!';
+    } else {
+        $res['msj'] = 'Ha ocurrido un error!';
+    }
+}
+
+if (isset($_GET['cambio_estado_pregunta'])) {
+    $strQuery = "   UPDATE dbtickets.pregunta
+                    SET estado = {$intEstado},
+                        fecha_edit = CURRENT_TIMESTAMP()
+                    WHERE id_pregunta = {$intIdPregunta}";
+    if ($con->db_consulta($strQuery)) {
+        $res['err'] = "false";
+        $res['msj'] = "Cambio de estado realizado exitosamente!";
+    } else {
+        $res['msj'] = "Ha ocurrido un error!";
     }
 }
 
